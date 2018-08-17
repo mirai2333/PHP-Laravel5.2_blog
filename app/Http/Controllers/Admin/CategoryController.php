@@ -87,13 +87,26 @@ class CategoryController extends Controller
         }
     }
     //get.admin/category/{category}    显示单个分类信息
-    public function show(){
-
+    public function show($cate_id){
+        $data = Category::find($cate_id);
     }
 
     //delete.admin/category/{category}    删除单个分类
-    public function delete(){
-
+    public function destroy($cate_id){
+        $result = Category::where("cate_id",$cate_id)->delete();
+        Category::where("cate_pid",$cate_id)->update(["cate_pid"=>0]);
+        if ($result){
+            $data=[
+                "status"=>"1",
+                "msg"=>"删除成功！"
+            ];
+        }else{
+            $data=[
+                "status"=>"0",
+                "msg"=>"删除失败！"
+            ];
+        }
+        return $data;
     }
 
 

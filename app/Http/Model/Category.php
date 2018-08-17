@@ -25,7 +25,7 @@ class Category extends Model
                 $arr[] = $data[$k];
                 foreach ($data as $m=>$n) {
                     if ($n->cate_pid == $v->cate_id){
-                        $data[$m]["_cate_name"] = "💨💨".$data[$m]["cate_name"];
+                        $data[$m]["_cate_name"] = "💨".$data[$m]["cate_name"];
                         $arr[] = $data[$m];
                     }
                 }

@@ -32,8 +32,19 @@ Route::group(["prefix" => "admin", "namespace" => "Admin"], function () {
     Route::get("index", "IndexController@index");
     Route::get("info", "IndexController@info");
     Route::any("pass", "IndexController@pass");
+    Route::any("upload", "CommonController@upload");
 
 
     Route::post("cate/changeOrder", "CategoryController@changeOrder");
     Route::resource('category','CategoryController');
+
+    Route::resource('article','ArticleController');
+    Route::post("links/changeOrder", "LinksController@changeOrder");
+    Route::resource('links','LinksController');
+
+    Route::post("navs/changeOrder", "NavsController@changeOrder");
+    Route::resource('navs','NavsController');
+
+    Route::post("config/changeOrder", "ConfigController@changeOrder");
+    Route::resource('config','ConfigController');
 });

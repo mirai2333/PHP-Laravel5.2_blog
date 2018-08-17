@@ -65,34 +65,38 @@
             <tr>
                 <th>缩略图：</th>
                 <td>
-                    <input type="text" size="50" name="art_thumb" value="{{$field->art_thumb}}">
-                    <input id="file_upload" name="file_upload" type="file" multiple="true">
-                    <script src="{{asset('resources/org/uploadify/jquery.uploadify.min.js')}}" type="text/javascript"></script>
-                    <link rel="stylesheet" type="text/css" href="{{asset('resources/org/uploadify/uploadify.css')}}">
+                    <link rel="stylesheet" type="text/css" href="{{asset("resources/org/Huploadify/Huploadify.css")}}"/>
+                    <script type="text/javascript" src="{{asset("resources/org/Huploadify/jquery.Huploadify.js")}}"></script>
                     <script type="text/javascript">
-                        <?php $timestamp = time();?>
-                        $(function() {
-                            $('#file_upload').uploadify({
-                                'buttonText' : '图片上传',
-                                'formData'     : {
-                                    'timestamp' : '<?php echo $timestamp;?>',
-                                    '_token'     : "{{csrf_token()}}"
+                        $(function(){
+                            $('#upload').Huploadify({
+                                auto:true,
+                                fileTypeExts:'*.jpg;*.png;*.exe',
+                                multi:true,
+                                formData:{_token:"{{csrf_token()}}",key2:'vvvv'},
+                                fileSizeLimit:9999,
+                                showUploadedPercent:true,//是否实时显示上传的百分比，如20%
+                                showUploadedSize:true,
+                                removeTimeout:9999999,
+                                uploader:'{{url("admin/upload")}}',
+                                onUploadStart:function(){
+                                    //alert('开始上传');
                                 },
-                                'swf'      : "{{asset('resources/org/uploadify/uploadify.swf')}}",
-                                'uploader' : "{{url('admin/upload')}}",
-                                'onUploadSuccess' : function(file, data, response) {
-                                    $('input[name=art_thumb]').val(data);
-                                    $('#art_thumb_img').attr('src','/'+data);
-//                                    alert(data);
+                                onInit:function(){
+                                    //alert('初始化');
+                                },
+                                onUploadComplete:function(file,data){
+                                    $("input[name=art_thumb]").val(data);
+                                    $("#art_thumb_img").attr("src","/"+data);
+                                },
+                                onDelete:function(file){
+                                    console.log('删除的文件：'+file);
+                                    console.log(file);
                                 }
                             });
                         });
                     </script>
-                    <style>
-                        .uploadify{display:inline-block;}
-                        .uploadify-button{border:none; border-radius:5px; margin-top:8px;}
-                        table.add_tab tr td span.uploadify-button-text{color: #FFF; margin:0;}
-                    </style>
+                    <input type="text" size="50" name="art_thumb" value="{{$field->art_thumb}}"><strong id="upload"></strong>
                 </td>
             </tr>
             <tr>
